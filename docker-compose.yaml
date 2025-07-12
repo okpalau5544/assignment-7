@@ -1,0 +1,36 @@
+services:
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - 8080:80
+
+  front-end:
+    image: ghcr.io/mcmastercce/bvd-103-mcmasterful-books/mcmasterful-books-docker:main
+    volumes:
+      - ./adapter:/source/adapter
+      
+  server:
+    image: node:20
+    volumes:
+      - ./:/app
+    command: npx -y tsx ./index.ts
+    working_dir: /app
+
+  server2:
+    image: node:20
+    volumes:
+      - ./:/app
+    command: npx -y tsx ./index.ts
+    working_dir: /app
+    
+  server3:
+    image: node:20
+    volumes:
+      - ./:/app
+    command: npx -y tsx ./index.ts
+    working_dir: /app
+
+  mongo:
+    image: mongo:latest
