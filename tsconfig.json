@@ -29,7 +29,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "types": [
-      "vitest/importMeta"
+      "node"
     ]
   },
   "exclude": ["client"]

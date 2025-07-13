@@ -103,3 +103,61 @@ export class OrderRoutes extends Controller {
     return await listOrders(ctx.state.warehouse)
   }
 }
+
+@Route('messages')
+export class MessageRoutes extends Controller {
+  /**
+   * Trigger a test order creation message
+   * @param item The item to order
+   * @param quantity The quantity to order
+   * @returns Success message
+   */
+  @Post('test-order')
+  @SuccessResponse(201, 'Order message sent')
+  public async triggerTestOrder (
+    @BodyProp('item') item: string,
+      @BodyProp('quantity') quantity: number = 1
+  ): Promise<{ message: string, orderId: string }> {
+    try {
+      // Import and use the order service
+      const { createOrder } = await import('../../services/order-service/index')
+      const order = await createOrder(item, quantity)
+
+      this.setStatus(201)
+      return {
+        message: 'Order message sent successfully',
+        orderId: order.id
+      }
+    } catch (error) {
+      console.error('Error creating test order:', error)
+      this.setStatus(500)
+      throw new Error('Failed to create test order')
+    }
+  }
+
+  /**
+   * Trigger a test inventory update message
+   * @param item The item to update
+   * @param quantityChange The quantity change (positive for increase, negative for decrease)
+   * @returns Success message
+   */
+  @Post('test-inventory')
+  @SuccessResponse(201, 'Inventory message sent')
+  public async triggerTestInventoryUpdate (
+    @BodyProp('item') item: string,
+      @BodyProp('quantityChange') quantityChange: number
+  ): Promise<{ message: string }> {
+    try {
+      // Import and use the warehouse service
+      const { updateInventory } = await import('../../services/warehouse-service/index')
+      await updateInventory(item, quantityChange)
+
+      this.setStatus(201)
+      return { message: 'Inventory update message sent successfully' }
+    } catch (error) {
+      console.error('Error updating inventory:', error)
+      this.setStatus(500)
+      throw new Error('Failed to update inventory')
+    }
+  }
+}
