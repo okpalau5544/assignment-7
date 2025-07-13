@@ -1,6 +1,14 @@
 version: "4.0"
 
 services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672" # AMQP (dor backend connections)
+      - "15672:15672" # HTTP API (for management UI)
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
   dev:
     image: mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm
     volumes:
