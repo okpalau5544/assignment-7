@@ -5,8 +5,7 @@ export default defineConfig({
   test: {
     includeSource: ['src/**/*.{js,ts}'],
     setupFiles: ['./database_test_setup.ts'],
-    globalSetup: ['./global_database_install.ts'],
-    watchExclude: ['build/**', 'client/**']
+    globalSetup: ['./global_database_install.ts']
   },
   plugins: [
     vitestOpenapiPlugin

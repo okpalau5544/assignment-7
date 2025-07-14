@@ -29,7 +29,8 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "types": [
-      "node"
+      "node",
+      "vitest/importMeta"
     ]
   },
   "exclude": ["client"]

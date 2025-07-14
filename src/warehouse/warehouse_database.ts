@@ -135,9 +135,9 @@ if (import.meta.vitest !== undefined) {
     const [memOrderId, dbOrderId] = await Promise.all([memData.placeOrder({ book: 2 }), dbData.placeOrder({ book: 2 })])
     const [memOrder, dbOrder] = await Promise.all([memData.getOrder(memOrderId), dbData.getOrder(dbOrderId)])
 
-    expect(memOrder).toMatchObject(dbOrder)
     expect(dbOrder).toBeTruthy()
-    if (dbOrder !== false) {
+    if (dbOrder !== false && memOrder !== false) {
+      expect(memOrder).toMatchObject(dbOrder)
       expect(dbOrder.book).toEqual(2)
     }
 
