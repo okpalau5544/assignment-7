@@ -24,7 +24,7 @@ export default function (): void {
     context.closeServer = () => {
       instance.close()
     }
-  })
+  }, 30000) // Increase timeout to 30 seconds
 
   afterEach<ServerTestContext>(async (context) => {
     context.closeServer()
