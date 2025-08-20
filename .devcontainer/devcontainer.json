@@ -13,7 +13,7 @@
     "ghcr.io/devcontainers/features/docker-in-docker": {}
   },
   // uncomment the line below if the repo is cloned to a local folder and opened as container
-  // "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   // Features to add to the dev container. More info: https://containers.dev/features.
   // "features": {},
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
