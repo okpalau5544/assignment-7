@@ -4,10 +4,10 @@
 	"strict": true,
 	"noImplicitAny": true,
 	"target": "es2022",
-	"module": "es2022",
+	"module": "NodeNext",
 	"esModuleInterop": true,
 	"skipLibCheck": true,
 	"forceConsistentCasingInFileNames": true,
-	"moduleResolution": "nodenext"
+	"moduleResolution": "NodeNext"
 	}
 }

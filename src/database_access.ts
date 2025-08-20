@@ -4,7 +4,7 @@ import { type Book } from '../adapter/assignment-3'
 
 // This is the connection string for the mongo database in our docker compose file
 // We're using process.env to detect if a different mongo uri is set, primarily for testing purpuses
-const uri = (global as any).MONGO_URI as string ?? 'mongodb://mongo'
+const uri = (global as any).MONGO_URI as string ?? 'mongodb://localhost:27017'
 
 // We're setting up a client, opening the database for our project, and then opening
 // a typed collection for our books.

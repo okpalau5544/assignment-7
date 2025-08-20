@@ -1,6 +1,6 @@
-import eventBus from './eventBus'
-import RabbitMQConnection, { RABBITMQ_CONFIG } from './rabbitmq-connection'
-import { getWarehouseServiceDatabase, cacheBookInfo, getBookInfo, updateInventory as updateWarehouseInventory, getInventoryForBook, getTotalStock } from './database'
+import eventBus from './eventBus.js'
+import RabbitMQConnection, { RABBITMQ_CONFIG } from './rabbitmq-connection.js'
+import { getWarehouseServiceDatabase, cacheBookInfo, getBookInfo, updateInventory as updateWarehouseInventory, getInventoryForBook, getTotalStock } from './database.js'
 
 interface Order {
   orderId: string
@@ -92,7 +92,7 @@ async function sendBookInfo (bookId: string): Promise<void> {
 }
 
 async function sendAllBookInfo (): Promise<void> {
-  const { getAllBookInfo } = await import('./database')
+  const { getAllBookInfo } = await import('./database.js')
   const allBooks = await getAllBookInfo()
 
   for (const book of allBooks) {
