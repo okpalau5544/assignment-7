@@ -135,12 +135,12 @@ export async function createOrUpdateBook (
 
 export async function getBookWithStock (bookId: string): Promise<BookWithStock | null> {
   const db = await getBooksServiceDatabase()
-  return db.books.findOne({ bookId })
+  return await db.books.findOne({ bookId })
 }
 
 export async function getAllBooksWithStock (): Promise<BookWithStock[]> {
   const db = await getBooksServiceDatabase()
-  return db.books.find({}).toArray()
+  return await db.books.find({}).toArray()
 }
 
 export async function isStockCacheStale (bookId: string, maxAgeMinutes: number = 5): Promise<boolean> {

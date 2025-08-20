@@ -75,12 +75,12 @@ export async function cacheBookInfo (bookId: string, title: string, author: stri
 
 export async function getBookInfo (bookId: string): Promise<BookInfo | null> {
   const db = await getWarehouseServiceDatabase()
-  return db.bookInfo.findOne({ bookId })
+  return await db.bookInfo.findOne({ bookId })
 }
 
 export async function getAllBookInfo (): Promise<BookInfo[]> {
   const db = await getWarehouseServiceDatabase()
-  return db.bookInfo.find({}).toArray()
+  return await db.bookInfo.find({}).toArray()
 }
 
 // Inventory management functions
