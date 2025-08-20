@@ -16,7 +16,7 @@ let database: Db | null = null
 
 export async function getOrderServiceDatabase (dbName: string = 'mcmasterful-orders'): Promise<OrderServiceData> {
   if (client === null || database === null) {
-    const mongoUrl = process.env.MONGO_ORDERS_URL ?? `mongodb://localhost:27019/${dbName}`
+    const mongoUrl = process.env.MONGO_ORDERS_URL ?? `mongodb://localhost:27017/${dbName}`
     console.log(`[Order Service] Connecting to MongoDB at ${mongoUrl}`)
 
     client = new MongoClient(mongoUrl)
