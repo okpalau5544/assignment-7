@@ -1,5 +1,5 @@
-import eventBus from '../eventBus'
-import RabbitMQConnection, { RABBITMQ_CONFIG } from '../rabbitmq-connection'
+import eventBus from './eventBus'
+import RabbitMQConnection, { RABBITMQ_CONFIG } from './rabbitmq-connection'
 import { getOrderServiceDatabase, cacheBookReference, isValidBookId, getBookReference } from './database'
 
 interface Order {
@@ -37,19 +37,19 @@ async function initializeService (): Promise<void> {
 
 async function setupMessageConsumers (): Promise<void> {
   // Listen for inventory updates
-  await rabbitMQ.consume(RABBITMQ_CONFIG.queues.INVENTORY_UPDATED, (message) => {
+  await rabbitMQ.consume(RABBITMQ_CONFIG.queues.INVENTORY_UPDATED, (message: any) => {
     console.log('[Order Service] Received inventory update:', message)
     // Handle inventory update logic here
   })
 
   // Listen for order processing confirmations
-  await rabbitMQ.consume(RABBITMQ_CONFIG.queues.ORDER_PROCESSED, (message) => {
+  await rabbitMQ.consume(RABBITMQ_CONFIG.queues.ORDER_PROCESSED, (message: any) => {
     console.log('[Order Service] Order processed:', message)
     // Handle order processing confirmation
   })
 
   // Listen for book information updates to cache locally
-  await rabbitMQ.consume(RABBITMQ_CONFIG.queues.BOOK_AVAILABILITY_RESPONSE, async (message) => {
+  await rabbitMQ.consume(RABBITMQ_CONFIG.queues.BOOK_AVAILABILITY_RESPONSE, async (message: any) => {
     console.log('[Order Service] Received book info update:', message)
     if (typeof message.bookId === 'string' && typeof message.title === 'string' && typeof message.author === 'string') {
       await cacheBookReference(message.bookId as string, message.title as string, message.author as string)

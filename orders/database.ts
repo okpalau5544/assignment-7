@@ -64,7 +64,7 @@ export async function getValidBookIds (): Promise<string[]> {
   const db = await getOrderServiceDatabase()
 
   const bookRefs = await db.bookReferences.find({}).toArray()
-  return bookRefs.map(ref => ref.bookId)
+  return bookRefs.map((ref: BookReference) => ref.bookId)
 }
 
 export async function isValidBookId (bookId: string): Promise<boolean> {
@@ -76,8 +76,7 @@ export async function isValidBookId (bookId: string): Promise<boolean> {
 
 export async function getBookReference (bookId: string): Promise<BookReference | null> {
   const db = await getOrderServiceDatabase()
-
-  return await db.bookReferences.findOne({ bookId })
+  return db.bookReferences.findOne({ bookId })
 }
 
 export type { BookReference, OrderServiceData }

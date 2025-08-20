@@ -75,14 +75,12 @@ export async function cacheBookInfo (bookId: string, title: string, author: stri
 
 export async function getBookInfo (bookId: string): Promise<BookInfo | null> {
   const db = await getWarehouseServiceDatabase()
-
-  return await db.bookInfo.findOne({ bookId })
+  return db.bookInfo.findOne({ bookId })
 }
 
 export async function getAllBookInfo (): Promise<BookInfo[]> {
   const db = await getWarehouseServiceDatabase()
-
-  return await db.bookInfo.find({}).toArray()
+  return db.bookInfo.find({}).toArray()
 }
 
 // Inventory management functions
@@ -112,7 +110,7 @@ export async function getInventoryForBook (bookId: string): Promise<Record<strin
 
   const result: Record<string, number> = {}
   items.forEach(item => {
-    result[item.shelf] = item.quantity
+    result[(item as InventoryItem).shelf] = (item as InventoryItem).quantity
   })
 
   return result
@@ -122,7 +120,7 @@ export async function getTotalStock (bookId: string): Promise<number> {
   const db = await getWarehouseServiceDatabase()
 
   const items = await db.inventory.find({ bookId }).toArray()
-  return items.reduce((total, item) => total + item.quantity, 0)
+  return items.reduce((total: number, item: InventoryItem) => total + item.quantity, 0)
 }
 
 export type { BookInfo, InventoryItem, WarehouseServiceData }

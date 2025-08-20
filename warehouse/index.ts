@@ -1,5 +1,5 @@
-import eventBus from '../eventBus'
-import RabbitMQConnection, { RABBITMQ_CONFIG } from '../rabbitmq-connection'
+import eventBus from './eventBus'
+import RabbitMQConnection, { RABBITMQ_CONFIG } from './rabbitmq-connection'
 import { getWarehouseServiceDatabase, cacheBookInfo, getBookInfo, updateInventory as updateWarehouseInventory, getInventoryForBook, getTotalStock } from './database'
 
 interface Order {
@@ -55,13 +55,13 @@ async function setupMessageConsumers (): Promise<void> {
   })
 
   // Listen for fulfillment requests
-  await rabbitMQ.consume(RABBITMQ_CONFIG.queues.FULFILLMENT_REQUEST, (request) => {
+  await rabbitMQ.consume(RABBITMQ_CONFIG.queues.FULFILLMENT_REQUEST, (request: any) => {
     console.log('[Warehouse] Received fulfillment request:', request)
     // Handle fulfillment request logic here
   })
 
   // Listen for book availability checks to respond with cached info
-  await rabbitMQ.consume(RABBITMQ_CONFIG.queues.BOOK_AVAILABILITY_CHECK, async (request) => {
+  await rabbitMQ.consume(RABBITMQ_CONFIG.queues.BOOK_AVAILABILITY_CHECK, async (request: any) => {
     console.log('[Warehouse] Received book availability check:', request)
 
     if (typeof request.bookId === 'string') {

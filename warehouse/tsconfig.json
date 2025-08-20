@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+	"strictNullChecks": true,
+	"strict": true,
+	"noImplicitAny": true,
+	"target": "es2022",
+	"module": "es2022",
+	"esModuleInterop": true,
+	"skipLibCheck": true,
+	"forceConsistentCasingInFileNames": true,
+	"moduleResolution": "nodenext"
+	}
+}

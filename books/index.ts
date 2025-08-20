@@ -1,5 +1,5 @@
-import RabbitMQConnection, { RABBITMQ_CONFIG } from '../rabbitmq-connection'
-import { getBooksServiceDatabase, updateStockCache, getStockLevel, createOrUpdateBook, getAllBooksWithStock, isStockCacheStale } from './database'
+import RabbitMQConnection, { RABBITMQ_CONFIG } from './rabbitmq-connection.js'
+import { getBooksServiceDatabase, updateStockCache, getStockLevel, createOrUpdateBook, getAllBooksWithStock, isStockCacheStale } from './database.js'
 
 const rabbitMQ = new RabbitMQConnection('Books Service')
 
@@ -59,7 +59,7 @@ async function setupMessageConsumers (): Promise<void> {
 }
 
 async function sendBookInfo (bookId: string): Promise<void> {
-  const { getBookWithStock } = await import('./database')
+  const { getBookWithStock } = await import('./database.js')
   const book = await getBookWithStock(bookId)
 
   if (book !== null) {
