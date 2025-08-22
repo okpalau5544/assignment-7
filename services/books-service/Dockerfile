@@ -11,8 +11,8 @@ RUN apk add --no-cache curl
 COPY package*.json ./
 COPY tsconfig.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install dependencies (including mongodb and other required packages)
+RUN npm ci
 
 # Install TypeScript and tsx globally
 RUN npm install -g tsx typescript
@@ -20,6 +20,8 @@ RUN npm install -g tsx typescript
 # Copy necessary files
 COPY services/rabbitmq-connection.ts ./services/
 COPY services/books-service/ ./services/books-service/
+COPY services/eventBus.ts ./services/
+COPY documented_types.ts ./
 
 # Expose port (if the service has a web interface)
 EXPOSE 3001
@@ -30,9 +32,9 @@ ENV SERVICE_NAME=books-service
 ENV RABBITMQ_URL=amqp://admin:password@rabbitmq:5672
 ENV MONGO_BOOKS_URL=mongodb://mongo:27017/mcmasterful-books
 
-# Health check - check if the service can connect to its database
+# Health check - simple port check instead of database connection
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-  CMD node -e "const { getBooksServiceDatabase } = require('./services/books-service/database.js'); getBooksServiceDatabase().then(() => process.exit(0)).catch(() => process.exit(1));" || exit 1
+  CMD curl -f http://localhost:3001/health || exit 1
 
 # Start the books service
 CMD ["tsx", "./services/books-service/index.ts"]
