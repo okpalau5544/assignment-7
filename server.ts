@@ -12,33 +12,37 @@ import { type Server, type IncomingMessage, type ServerResponse } from 'http'
 import { type AppBookDatabaseState, getBookDatabase } from './src/database_access'
 import { type AppWarehouseDatabaseState, getDefaultWarehouseDatabase } from './src/warehouse/warehouse_database'
 
-export default async function (port?: number, randomizeDbs?: boolean): Promise<{ server: Server<typeof IncomingMessage, typeof ServerResponse>, state: AppBookDatabaseState & AppWarehouseDatabaseState }> {
+export default async function (port?: number, randomizeDbs?: boolean, skipMicroservices?: boolean): Promise<{ server: Server<typeof IncomingMessage, typeof ServerResponse>, state: AppBookDatabaseState & AppWarehouseDatabaseState }> {
   const bookDb = getBookDatabase(randomizeDbs === true ? undefined : 'mcmasterful-books')
   const warehouseDb = await getDefaultWarehouseDatabase(randomizeDbs === true ? undefined : 'mcmasterful-warehouse')
 
-  // Initialize microservices
-  async function initializeMicroservices (): Promise<void> {
-    try {
-      // Import and initialize books service
-      const { initializeService: initBooksService } = await import('./services/books-service/index')
-      await initBooksService()
+  // Initialize microservices only if not skipped (for testing)
+  if (!skipMicroservices && process.env.NODE_ENV !== 'test') {
+    async function initializeMicroservices (): Promise<void> {
+      try {
+        // Import and initialize books service
+        const { initializeService: initBooksService } = await import('./services/books-service/index')
+        await initBooksService()
 
-      // Import and initialize order service
-      const { initializeService: initOrderService } = await import('./services/order-service/index')
-      await initOrderService()
+        // Import and initialize order service
+        const { initializeService: initOrderService } = await import('./services/order-service/index')
+        await initOrderService()
 
-      // Import and initialize warehouse service
-      const { initializeService: initWarehouseService } = await import('./services/warehouse-service/index')
-      await initWarehouseService()
+        // Import and initialize warehouse service
+        const { initializeService: initWarehouseService } = await import('./services/warehouse-service/index')
+        await initWarehouseService()
 
-      console.log('[Server] Microservices initialized successfully')
-    } catch (error) {
-      console.error('[Server] Failed to initialize microservices:', error)
-      // Don't fail server startup if microservices fail to initialize
+        console.log('[Server] Microservices initialized successfully')
+      } catch (error) {
+        console.error('[Server] Failed to initialize microservices:', error)
+        // Don't fail server startup if microservices fail to initialize
+      }
     }
-  }
 
-  await initializeMicroservices()
+    await initializeMicroservices()
+  } else {
+    console.log('[Server] Skipping microservices initialization (test mode)')
+  }
 
   const state: AppBookDatabaseState & AppWarehouseDatabaseState = {
     books: bookDb,
