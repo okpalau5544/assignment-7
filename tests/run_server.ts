@@ -13,7 +13,7 @@ export default function (): void {
   beforeEach<ServerTestContext>(async (context) => {
     // Set test environment variable
     process.env.NODE_ENV = 'test'
-    
+
     // Start server with microservices disabled
     const { server: instance, state } = await server(undefined, true, true)
     const address = instance.address()
@@ -26,7 +26,7 @@ export default function (): void {
     }
     context.state = state
     context.closeServer = async () => {
-      return new Promise<void>((resolve) => {
+      await new Promise<void>((resolve) => {
         instance.close(() => {
           resolve()
         })
@@ -35,10 +35,10 @@ export default function (): void {
   }, 30000) // Increase timeout to 30 seconds
 
   afterEach<ServerTestContext>(async (context) => {
-    if (context.closeServer) {
+    if (context.closeServer != null) {
       await context.closeServer()
     }
-    
+
     // Clean up microservice database connections
     try {
       const { closeBooksServiceDatabase } = await import('../services/books-service/database')

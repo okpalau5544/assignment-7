@@ -72,7 +72,7 @@ export async function isValidBookId (bookId: string): Promise<boolean> {
 
 export async function getBookReference (bookId: string): Promise<BookReference | null> {
   const db = await getOrderServiceDatabase()
-  return db.bookReferences.findOne({ bookId })
+  return await db.bookReferences.findOne({ bookId })
 }
 
 export type { BookReference, OrderServiceData }
