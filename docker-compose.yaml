@@ -13,6 +13,8 @@ services:
 
   front-end:
     image: ghcr.io/mcmastercce/bvd-103-mcmasterful-books/mcmasterful-books-docker:main
+    ports:
+      - "9080:9080"
     volumes:
       - ./adapter:/source/adapter
 
@@ -67,6 +69,8 @@ services:
 
   mongo-books:
     image: mongo:latest
+    ports:
+      - "27017:27017"
   mongo-warehouse:
     image: mongo:latest
   mongo-order:
