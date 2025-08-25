@@ -75,6 +75,8 @@ services:
     image: mongo:latest
   mongo-order:
     image: mongo:latest
+    ports:
+      - "27017:27017"
 
   rabbitmq:
     image: rabbitmq:management-alpine

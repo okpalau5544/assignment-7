@@ -1,9 +1,10 @@
 import { type Collection, type Db, MongoClient } from 'mongodb'
 // We are importing the book type here, so we can keep our types consistent with the front end
 import { type Book } from '../adapter/assignment-3'
+import { Order } from './documented_types'
 
 // This is the connection string for the mongo database in our docker compose file
-// We're using process.env to detect if a different mongo uri is set, primarily for testing purpuses
+// We're using process.env to detect if a different mongo uri is set, primarily for testing purposes
 const uri = (global as any).MONGO_URI as string ?? 'mongodb://localhost:27017'
 
 // We're setting up a client, opening the database for our project, and then opening
@@ -16,10 +17,12 @@ export const client = new MongoClient(uri)
 export interface BookDatabaseAccessor {
   database: Db
   books: Collection<Book>
+  orders: Collection<Order>
 }
 
 export interface AppBookDatabaseState {
   books: BookDatabaseAccessor
+  orders: BookDatabaseAccessor
 }
 
 export function getBookDatabase (dbName?: string): BookDatabaseAccessor {
@@ -28,7 +31,8 @@ export function getBookDatabase (dbName?: string): BookDatabaseAccessor {
 
   return {
     database,
-    books
+    books,
+    orders: database.collection<Order>('orders')
   }
 }
 

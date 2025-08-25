@@ -33,5 +33,17 @@
       "vitest/importMeta"
     ]
   },
-  "exclude": ["client"]
+  "include": [
+    "src/**/*",
+    "tests/**/*",
+    "*.ts",
+    "**/*.ts"
+  ],
+  "exclude": [
+    "client",
+    "node_modules",
+    "build",
+    "index.ts",
+    "server.ts"
+  ]
 }
