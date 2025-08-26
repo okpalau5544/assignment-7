@@ -6,6 +6,8 @@
   "scripts": {
     "start-server": "tsx ./index.ts",
     "start-book-server": "tsx ./src/books/server.ts",
+    "start-order-server": "tsx ./src/orders/server.ts",
+    "start-warehouse-server": "tsx ./src/warehouse/server.ts",
     "lint": "eslint ./**/*.ts",
     "fix-lint": "eslint --fix ./**/*.ts",
     "check-types": "tsc --noEmit",
