@@ -73,10 +73,12 @@ services:
       - "27017:27017"
   mongo-warehouse:
     image: mongo:latest
+    ports:
+      - "27019:27017"
   mongo-order:
     image: mongo:latest
     ports:
-      - "27017:27017"
+      - "27018:27017"
 
   rabbitmq:
     image: rabbitmq:management-alpine
