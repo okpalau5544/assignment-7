@@ -13,8 +13,7 @@ services:
 
   front-end:
     image: ghcr.io/mcmastercce/bvd-103-mcmasterful-books/mcmasterful-books-docker:main
-    ports:
-      - "9080:9080"
+    
     volumes:
       - ./adapter:/source/adapter
 
