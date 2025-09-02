@@ -21,14 +21,20 @@ services:
     depends_on:
       - mongo-books
       - rabbitmq
-    image: node:22
+    image: books-image:latest
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URL=mongodb://mongo-books:27017/books
+      - RABBITMQ_URL=amqp://admin:password@rabbitmq:5672
     volumes:
       - ./books:/app
+      - ./src:/app/src
       - ./node_modules:/app/node_modules
       - ./tsconfig.json:/app/tsconfig.json
       - ./documented_types.ts:/documented_types.ts
     command: npx -y tsx ./index.ts
-    working_dir: /app
 
   orders:
     depends_on:
