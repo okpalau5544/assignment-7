@@ -1,11 +1,12 @@
 import { z } from 'zod'
-import { getBookDatabase, type BookDatabaseAccessor } from '../database_access'
-import { type BookID, type Book } from '../../adapter/assignment-2'
+import { getBookDatabase, type BookDatabaseAccessor } from './database_access'
+import { type BookID, type Book } from '../../documented_types'
 import { type ZodRouter } from 'koa-zod-router'
 import { ObjectId } from 'mongodb'
-import { generateId, seedBookDatabase } from '../../database_test_utilities'
+import { generateId, seedBookDatabase } from '../database_test_utilities'
 
-async function getBook (id: BookID, { books }: BookDatabaseAccessor): Promise<Book | false> {
+
+export default  async function getBook (id: BookID, { books }: BookDatabaseAccessor): Promise<Book | false> {
   if (id.length !== 24) {
     console.error('Failed with id: ', id)
     return false
@@ -23,32 +24,6 @@ async function getBook (id: BookID, { books }: BookDatabaseAccessor): Promise<Bo
     image: result.image
   }
   return book
-}
-
-export default function getBookRoute (router: ZodRouter, books: BookDatabaseAccessor): void {
-  router.register({
-    name: 'get book',
-    method: 'get',
-    path: '/books/:id',
-    validate: {
-      params: z.object({
-        id: z.string().min(2)
-      })
-    },
-    handler: async (ctx, next) => {
-      const { id } = ctx.request.params
-
-      const result = await getBook(id, books)
-
-      if (result === false) {
-        ctx.status = 404
-        return await next()
-      }
-
-      ctx.body = result
-      await next()
-    }
-  })
 }
 
 if (import.meta.vitest !== undefined) {
