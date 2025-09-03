@@ -25,7 +25,7 @@ jobs:
             - run: npm install
             - run: npm run check-types
 
-    test:
+    test-books:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
@@ -33,7 +33,27 @@ jobs:
               with:
                 node-version: '20'           
             - run: npm install
-            - run: npm run test:ci
+            - run: npm run test:ci --workspace=books
+
+    test-orders:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                node-version: '20'           
+            - run: npm install
+            - run: npm run test:ci --workspace=orders
+
+    test-warehouse:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                node-version: '20'           
+            - run: npm install
+            - run: npm run test:ci --workspace=warehouse
 
     generate-client:
         runs-on: ubuntu-latest

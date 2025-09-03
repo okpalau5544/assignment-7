@@ -21,8 +21,7 @@ services:
     depends_on:
       - mongo-books
       - rabbitmq
-    image: books-image:latest
-    working_dir: /app
+    image: node:22
     ports:
       - "3000:3000"
     environment:
@@ -35,6 +34,7 @@ services:
       - ./tsconfig.json:/app/tsconfig.json
       - ./documented_types.ts:/documented_types.ts
     command: npx -y tsx ./index.ts
+    working_dir: /app
 
   orders:
     depends_on:
