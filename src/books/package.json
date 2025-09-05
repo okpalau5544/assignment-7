@@ -1,0 +1,13 @@
+{
+  "name": "books",
+  "version": "1.0.0",
+  "description": "Book management service for mcmasterful-books",
+  "main": "server.ts",
+  "scripts": {
+    "start-server": "tsx server.ts",
+    "dev": "tsx --watch server.ts"
+  },
+  "keywords": ["books", "api", "mongodb"],
+  "author": "",
+  "license": "ISC"
+}

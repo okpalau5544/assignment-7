@@ -1,7 +1,18 @@
-import { bookCollection } from './database_access'
+import { getBookDatabase } from './database_access'
 import { type BookDatabaseAccessor } from '../database_access'
 import { type Filter, type Book } from '../documented_types'
+import { MongoClient } from 'mongodb'
 
+// Replace the connection string with MongoDB URI
+const client = new MongoClient(process.env.MONGO_URL ?? 'mongodb://mongo-books:27017')
+
+async function connectToDatabase() {
+  await client.connect()
+  return {
+    database: client.db('mcmasterful-books'),
+    bookCollection: client.db('mcmasterful-books').collection<Book>('books')
+  }
+}
 export default async function listBooks (books: BookDatabaseAccessor, filters: Filter[]): Promise<Book[]> {
   const validFilters = filters?.filter(({ from, to, name, author }) =>
     typeof from === 'number' ||
@@ -31,7 +42,17 @@ export default async function listBooks (books: BookDatabaseAccessor, filters: F
       }
     : {}
 
-  const bookList = await bookCollection.find(query).map(document => {
+  interface BookDocument {
+    _id: { toHexString(): string }
+    name: string
+    image: string
+    price: number
+    author: string
+    description: string
+  }
+
+  const { bookCollection } = await connectToDatabase()
+  const bookList: Book[] = await bookCollection.find(query).map((document: BookDocument): Book => {
     const book: Book = {
       id: document._id.toHexString(),
       name: document.name,

@@ -6,7 +6,7 @@ import { z } from 'zod'
 import listBooks from './list'
 import createOrUpdateBook from './create_or_update'
 import deleteBook from './delete'
-import { client, database } from './database_access'
+import { MongoClient } from 'mongodb'
 import { type BookDatabaseAccessor } from '../database_access'
 
 const app = new Koa()
@@ -18,6 +18,10 @@ qs(app)
 app.use(cors())
 
 const router = zodRouter()
+
+// Create MongoDB client and database
+const client = new MongoClient(process.env.MONGO_URL ?? 'mongodb://mongo-books:27017')
+const database = client.db('mcmasterful-books')
 
 // Create database accessor
 const bookDatabaseAccessor: BookDatabaseAccessor = {
@@ -83,6 +87,12 @@ deleteBook(router, bookDatabaseAccessor)
 
 app.use(router.routes())
 
-app.listen(3000, () => {
-  console.log('Books service listening on port 3000!')
-})
+// Connect to MongoDB and start server
+async function startServer() {
+  await client.connect()
+  app.listen(3000, () => {
+    console.log('Books service listening on port 3000!')
+  })
+}
+
+startServer().catch(console.error)
