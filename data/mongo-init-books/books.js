@@ -1,4 +1,8 @@
-use("mcmasterful-books");
+// pick the DB explicitly for init scripts:
+db = db.getSiblingDB('mcmasterful-books');
+
+// create collection (optional; insertMany will create it too)
+db.createCollection('books');
 
 db.books.insertMany([
   {
