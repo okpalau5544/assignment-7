@@ -1,0 +1,13 @@
+### Variables
+  @baseUrl = http://localhost:8080
+  @contentType = application/json
+  @bookId = some-book-id
+  @shelfId = shelf-A1
+
+  ### Place Books on Shelf
+  # @name placeBooksOnShelf
+  PUT {{baseUrl}}/api/warehouse/{{bookId}}/{{shelfId}}/50
+
+  ### Get Book Location Info
+  # @name getBookInfo
+  GET {{baseUrl}}/api/warehouse/{{bookId}}

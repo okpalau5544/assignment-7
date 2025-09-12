@@ -1,0 +1,23 @@
+### Variables
+  @baseUrl = http://localhost:8080
+  @contentType = application/json
+  @bookId = book-123
+
+  ### List Pending Orders
+  # @name listOrders
+  GET {{baseUrl}}/api/order
+
+  ### Fulfill Order
+  # @name fulfillOrder
+  PUT {{baseUrl}}/api/fulfil/order-123
+  Content-Type: {{contentType}}
+
+  {
+    "booksFulfilled": [
+      {
+        "book": "{{bookId}}",
+        "shelf": "shelf-A1",
+        "numberOfBooks": 2
+      }
+    ]
+  }

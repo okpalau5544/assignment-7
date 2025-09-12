@@ -3,10 +3,10 @@ services:
     depends_on:
       books:
         condition: service_started
-      # orders:
-      #   condition: service_started
-      # warehouse:
-      #   condition: service_started
+      orders:
+        condition: service_started
+      warehouse:
+        condition: service_started
       front-end:
         condition: service_started
     image: nginx
@@ -41,31 +41,43 @@ services:
     command: npx -y tsx ./index.ts
     working_dir: /app
 
-  # orders:
-  #   depends_on:
-  #     - mongo-order
-  #     - rabbitmq
-  #   image: node:22
-  #   volumes:
-  #     - ./orders:/app
-  #     - ./node_modules:/app/node_modules
-  #     - ./tsconfig.json:/app/tsconfig.json
-  #     - ./documented_types.ts:/documented_types.ts
-  #   command: npx -y tsx ./index.ts
-  #   working_dir: /app
+  orders:
+    depends_on:
+      - mongo-order
+      - rabbitmq
+    image: node:22
+    ports:
+      - "3001:3000"
+    environment:
+      - MONGO_URL=mongodb://mongo-order:27017/orders
+      - RABBITMQ_URL=amqp://admin:password@rabbitmq:5672
+    volumes:
+      - ./orders:/app
+      - ./src:/app/src
+      - ./node_modules:/app/node_modules
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./documented_types.ts:/documented_types.ts
+    command: npx -y tsx ./index.ts
+    working_dir: /app
 
-  # warehouse:
-  #   depends_on:
-  #     - mongo-warehouse
-  #     - rabbitmq
-  #   image: node:22
-  #   volumes:
-  #     - ./warehouse:/app
-  #     - ./node_modules:/app/node_modules
-  #     - ./tsconfig.json:/app/tsconfig.json
-  #     - ./documented_types.ts:/documented_types.ts
-  #   command: npx -y tsx ./index.ts
-  #   working_dir: /app
+  warehouse:
+    depends_on:
+      - mongo-warehouse
+      - rabbitmq
+    image: node:22
+    ports:
+      - "3002:3000"
+    environment:
+      - MONGO_URL=mongodb://mongo-warehouse:27017/warehouse
+      - RABBITMQ_URL=amqp://admin:password@rabbitmq:5672
+    volumes:
+      - ./warehouse:/app
+      - ./src:/app/src
+      - ./node_modules:/app/node_modules
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./documented_types.ts:/documented_types.ts
+    command: npx -y tsx ./index.ts
+    working_dir: /app
 
   docs:
     image: node:22
@@ -92,23 +104,23 @@ services:
       interval: 5s
       timeout: 3s
       retries: 20
-  # mongo-warehouse:
-  #   image: mongo:latest
-  #   ports:
-  #     - "27019:27017"
-  # mongo-order:
-  #   image: mongo:latest
-  #   ports:
-  #     - "27018:27017"
+  mongo-warehouse:
+    image: mongo:latest
+    ports:
+      - "27019:27017"
+  mongo-order:
+    image: mongo:latest
+    ports:
+      - "27018:27017"
 
-  # rabbitmq:
-  #   image: rabbitmq:management-alpine
-  #   ports:
-  #     - "5672:5672"
-  #     - "15672:15672"
-  #   environment:
-  #     RABBITMQ_DEFAULT_USER: admin
-  #     RABBITMQ_DEFAULT_PASS: password
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: password
 
 volumes:
   mongo-data:
