@@ -4,7 +4,9 @@ import type { Book } from '../../schema/type'
 import { Order } from '../documented_types'
 
 // This is the connection string for the mongo database in our docker compose file
-const uri = 'mongodb://localhost:27017'
+// const uri = process.env.MONGO_URI ?? 'mongodb://localhost:27017'
+const uri = 'mondodb://mongo-order/orders'
+console.log(uri)
 
 // We're setting up a client, opening the database for our project, and then opening
 // a typed collection for our orders.

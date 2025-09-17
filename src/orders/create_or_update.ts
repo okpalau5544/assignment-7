@@ -6,7 +6,7 @@ import { orderCollection } from './database_access'
 export default async function createOrUpdateOrder (order: Order, orders: BookDatabaseAccessor): Promise<OrderId | false> {
   const body = order
 
-  if (typeof body.orderId === 'string') {
+  if (typeof body.orderId === 'string' && body.orderId.length === 24) {
     const orderId = body.orderId
     const result = await orderCollection.replaceOne(
       { _id: { $eq: ObjectId.createFromHexString(orderId) } }, 

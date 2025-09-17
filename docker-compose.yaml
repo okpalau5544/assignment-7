@@ -47,7 +47,7 @@ services:
       - rabbitmq
     image: node:22
     ports:
-      - "3001:3000"
+      - "4000:4000"
     environment:
       - MONGO_URL=mongodb://mongo-order:27017/orders
       - RABBITMQ_URL=amqp://admin:password@rabbitmq:5672

@@ -1,11 +1,17 @@
 ### Variables
-  @baseUrl = http://localhost:8080
+  @baseUrl = http://localhost:4000
   @contentType = application/json
   @bookId = book-123
 
   ### List Pending Orders
   # @name listOrders
-  GET {{baseUrl}}/api/order
+  POST {{baseUrl}}/orders/list 
+
+
+  ### Request to Post Order
+  # @name postOrders
+  POST {{baseUrl}}/orders/list
+
 
   ### Fulfill Order
   # @name fulfillOrder
