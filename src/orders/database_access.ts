@@ -5,7 +5,7 @@ import { Order } from '../documented_types'
 
 // This is the connection string for the mongo database in our docker compose file
 // const uri = process.env.MONGO_URI ?? 'mongodb://localhost:27017'
-const uri = 'mondodb://mongo-order/orders'
+const uri = 'mongodb://mongo-order/orders'
 console.log(uri)
 
 // We're setting up a client, opening the database for our project, and then opening
