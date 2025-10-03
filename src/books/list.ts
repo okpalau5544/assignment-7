@@ -2,13 +2,11 @@ import { type Book, type Filter } from '../../documented_types'
 import { type BookDatabaseAccessor } from './database_access'
 
 export default async function listBooks (books: BookDatabaseAccessor, filters: Filter[]): Promise<Book[]> {
-  const { books: bookCollection } = books
-
   const validFilters = filters?.filter(({ from, to, name, author }) =>
     typeof from === 'number' ||
-        typeof to === 'number' ||
-        (typeof name === 'string' && name.trim().length > 0) ||
-        (typeof author === 'string' && author.trim().length > 0)
+    typeof to === 'number' ||
+    (typeof name === 'string' && name.trim().length > 0) ||
+    (typeof author === 'string' && author.trim().length > 0)
   ) ?? []
 
   const query = validFilters.length > 0
@@ -32,7 +30,17 @@ export default async function listBooks (books: BookDatabaseAccessor, filters: F
       }
     : {}
 
-  const bookList = await bookCollection.find(query).map(document => {
+  interface BookDocument {
+    _id: { toHexString(): string }
+    name: string
+    image: string
+    price: number
+    author: string
+    description: string
+  }
+
+  const { bookCollection } = await connectToDatabase()
+  const bookList: Book[] = await bookCollection.find(query).map((document: BookDocument): Book => {
     const book: Book = {
       id: document._id.toHexString(),
       name: document.name,

@@ -1,0 +1,65 @@
+### Variables
+@baseUrl = http://localhost:3000
+@contentType = application/json
+
+### Create a Book
+# @name createBook
+POST {{baseUrl}}/books
+Content-Type: {{contentType}}
+
+{
+  "name": "The Great Gatsby",
+  "author": "F. Scott Fitzgerald",
+  "description": "A classic American novel set in the Jazz Age",
+  "price": 12.99,
+  "image": "https://example.com/great-gatsby.jpg"
+}
+
+### Extract book ID from create response
+@bookId = {{createBook.response.body.id}}
+
+### Get Book by ID
+# @name getBook
+GET {{baseUrl}}/books/{{bookId}}
+
+### List Books with POST (with filters)
+# @name listBooksPost
+POST {{baseUrl}}/books/list
+Content-Type: {{contentType}}
+
+[
+  {
+    "from": 10,
+    "to": 20
+  }
+]
+
+### List Books with GET (no filters)
+# @name listBooksGet
+GET {{baseUrl}}/books/list
+
+### List Books with GET (with price range)
+# @name listBooksGetWithPrice
+GET {{baseUrl}}/books/list?priceFrom=10&priceTo=20
+
+### Update Book
+# @name updateBook
+POST {{baseUrl}}/books
+Content-Type: {{contentType}}
+
+{
+  "id": "{{bookId}}",
+  "name": "The Great Gatsby - Updated Edition",
+  "author": "F. Scott Fitzgerald",
+  "description": "A classic American novel set in the Jazz Age - Now with new introduction",
+  "price": 14.99,
+  "image": "https://example.com/great-gatsby-updated.jpg"
+}
+
+### Delete Book
+# @name deleteBook
+DELETE {{baseUrl}}/books/{{bookId}}
+
+### Verify Book is Deleted (should return 404)
+# @name verifyDeleted
+GET {{baseUrl}}/books/{{bookId}}
