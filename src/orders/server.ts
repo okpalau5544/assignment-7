@@ -7,7 +7,7 @@ import listOrders from './list'
 import createOrUpdateOrder from './create_or_update'
 import deleteOrder from './delete'
 import getOrderRoute from './lookup'
-import { client, database } from './database_access'
+import { database } from './database_access'
 import { type BookDatabaseAccessor } from '../database_access'
 import { type Order } from '../documented_types'
 
@@ -37,7 +37,7 @@ router.register({
     body: z.object({
       filters: z.array(z.object({
         from: z.number().optional(),
-        to: z.number().optional(), 
+        to: z.number().optional(),
         name: z.string().optional(),
         author: z.string().optional()
       })).optional()
@@ -65,11 +65,11 @@ router.register({
   handler: async (ctx, next) => {
     const { orderId, books } = ctx.request.body
     const orderData: Order = {
-      orderId: orderId || '',
+      orderId: orderId ?? '',
       books
     }
     const result = await createOrUpdateOrder(orderData, bookDatabaseAccessor)
-    if (result) {
+    if (result !== false) {
       ctx.status = 201
       ctx.body = { orderId: result }
     } else {

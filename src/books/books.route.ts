@@ -61,9 +61,9 @@ export class BooksRoutes extends Controller {
   }
 
   @Delete('{id}')
-  public async deleteBook (@Path() id: BookID, @Request() request: koa.Request): Promise<void> {
-    const ctx: koa.ParameterizedContext<AppBookDatabaseState, koa.DefaultContext> = request.ctx
-    // Placeholder for delete functionality
+  public async deleteBook (@Path() id: BookID, @Request() _request: koa.Request): Promise<void> {
+    // Placeholder for delete functionality - id would be used here
+    console.log('Delete requested for book:', id)
     this.setStatus(501) // Not implemented yet
   }
 }

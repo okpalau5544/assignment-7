@@ -1,7 +1,6 @@
 import { MongoClient } from 'mongodb'
 // We are importing the book type here, so we can keep our types consistent with the front end
-import type { Book } from '../../schema/type'
-import { Order } from '../documented_types'
+import { type Order } from '../documented_types'
 
 // This is the connection string for the mongo database in our docker compose file
 // const uri = process.env.MONGO_URI ?? 'mongodb://localhost:27017'

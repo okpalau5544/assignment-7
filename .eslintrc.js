@@ -4,6 +4,7 @@ module.exports = {
         "node": true
     },
     "extends": "standard-with-typescript",
+    "ignorePatterns": ["tests/**/*", "client/**/*", "build/**/*"],
     "overrides": [
         {
             "env": {

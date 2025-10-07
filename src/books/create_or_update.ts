@@ -25,7 +25,7 @@ export default async function createOrUpdateBook (book: Book, books: BookDatabas
       return false
     }
   } else {
-    let book : Book = {
+    let book: Book = {
       name: body.name,
       description: body.description,
       price: body.price,

@@ -31,7 +31,7 @@ export default async function listBooks (books: BookDatabaseAccessor, filters: F
     : {}
 
   interface BookDocument {
-    _id: { toHexString(): string }
+    _id: { toHexString: () => string }
     name: string
     image: string
     price: number

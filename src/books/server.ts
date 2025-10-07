@@ -71,7 +71,7 @@ router.register({
   handler: async (ctx, next) => {
     const book = ctx.request.body
     const result = await createOrUpdateBook(book, bookDatabaseAccessor)
-    
+
     if (result !== false) {
       ctx.body = { id: result }
     } else {
@@ -88,7 +88,7 @@ deleteBook(router, bookDatabaseAccessor)
 app.use(router.routes())
 
 // Connect to MongoDB and start server
-async function startServer() {
+async function startServer (): Promise<void> {
   await client.connect()
   app.listen(3000, () => {
     console.log('Books service listening on port 3000!')

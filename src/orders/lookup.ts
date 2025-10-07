@@ -10,13 +10,13 @@ export async function getOrder (id: OrderId, { orders }: BookDatabaseAccessor): 
     console.error('Failed with order id: ', id)
     return false
   }
-  
+
   try {
     const result = await orders.findOne({ _id: ObjectId.createFromHexString(id.trim()) })
     if (result === null) {
       return false
     }
-    
+
     const order: Order = {
       orderId: id,
       books: result.books

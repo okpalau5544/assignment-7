@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { type BookDatabaseAccessor } from '../database_access'
-import { OrderId, type Order } from '../documented_types'
+import { type OrderId, type Order } from '../documented_types'
 import { orderCollection } from './database_access'
 
 export default async function createOrUpdateOrder (order: Order, orders: BookDatabaseAccessor): Promise<OrderId | false> {
@@ -9,7 +9,7 @@ export default async function createOrUpdateOrder (order: Order, orders: BookDat
   if (typeof body.orderId === 'string' && body.orderId.length === 24) {
     const orderId = body.orderId
     const result = await orderCollection.replaceOne(
-      { _id: { $eq: ObjectId.createFromHexString(orderId) } }, 
+      { _id: { $eq: ObjectId.createFromHexString(orderId) } },
       {
         orderId,
         books: body.books

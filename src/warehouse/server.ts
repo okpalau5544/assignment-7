@@ -2,8 +2,6 @@ import Koa from 'koa'
 import cors from '@koa/cors'
 import bodyParser from 'koa-bodyparser'
 import Router from '@koa/router'
-import { MongoClient } from 'mongodb'
-
 const app = new Koa()
 
 // Add middleware
@@ -24,8 +22,8 @@ router.get('/warehouse/:bookId', (ctx) => {
 })
 
 router.put('/warehouse/:bookId/:shelf/:number', (ctx) => {
-  ctx.body = { 
-    message: 'Place books on shelf endpoint', 
+  ctx.body = {
+    message: 'Place books on shelf endpoint',
     bookId: ctx.params.bookId,
     shelf: ctx.params.shelf,
     number: ctx.params.number
@@ -44,7 +42,7 @@ app.use(router.routes())
 app.use(router.allowedMethods())
 
 // Start server
-const port = process.env.PORT || 3000
+const port = process.env.PORT ?? 3000
 
 app.listen(port, () => {
   console.log(`Warehouse server running on port ${port}`)

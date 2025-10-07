@@ -20,7 +20,7 @@ export default function deleteBook (router: ZodRouter, books: BookDatabaseAccess
       const objectId = ObjectId.createFromHexString(id)
       const result = await bookCollection.deleteOne({ _id: { $eq: objectId } })
       if (result.deletedCount === 1) {
-        await bookDeleted(id);
+        await bookDeleted(id)
         ctx.body = {}
       } else {
         ctx.statusCode = 404
