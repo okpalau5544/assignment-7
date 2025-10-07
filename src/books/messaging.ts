@@ -1,4 +1,4 @@
-import { BookID, type Book } from "../../documented_types";
+import { BookID, type Book } from "../documented_types";
 import amqp from "amqplib";
 import timers from "node:timers/promises";
 
@@ -9,7 +9,7 @@ const send = {
 
 export async  function setupMessaging () {
     const channelName = 'books';
-    const conn = await new Promise<amqp.Connection>(async (resolve, reject) => {
+    const conn = await new Promise<amqp.ChannelModel>(async (resolve, reject) => {
         for (let i = 0; i < 10; i++) {
             try {
                 let result = await amqp.connect("amqp://rabbitmq");

@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { type BookDatabaseAccessor } from '../database_access'
 import { type Book, type BookID } from '../documented_types'
-import ( bookCreatedOrUpdated ) from './messaging'
+import { bookCreatedOrUpdated } from './messaging'
 
 export default async function createOrUpdateBook (book: Book, books: BookDatabaseAccessor): Promise<BookID | false> {
   const { books: bookCollection } = books

@@ -1,9 +1,9 @@
 import { z } from 'zod'
-import { getBookDatabase, type BookDatabaseAccessor } from './database_access'
-import { type BookID, type Book } from '../../documented_types'
+import { getBookDatabase, type BookDatabaseAccessor } from '../database_access'
+import { type BookID, type Book } from '../documented_types'
 import { type ZodRouter } from 'koa-zod-router'
 import { ObjectId } from 'mongodb'
-import { generateId, seedBookDatabase } from '../database_test_utilities'
+import { generateId, seedBookDatabase } from '../../database_test_utilities'
 
 
 export default  async function getBook (id: BookID, { books }: BookDatabaseAccessor): Promise<Book | false> {

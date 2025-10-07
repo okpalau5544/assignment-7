@@ -119,15 +119,12 @@ export class MessageRoutes extends Controller {
       @BodyProp('quantity') quantity: number = 1
   ): Promise<{ message: string, orderId: string }> {
     try {
-      // Import and use the order service
-      const { createOrder } = await import('../../services/order-service/index')
-      const order = await createOrder(item, quantity)
+      // TODO: Import and use the order service
+      // const { createOrder } = await import('../../orders/index')
+      // const order = await createOrder(item, quantity)
 
-      this.setStatus(201)
-      return {
-        message: 'Order message sent successfully',
-        orderId: order.id
-      }
+      this.setStatus(501)
+      throw new Error('Not implemented - order service integration pending')
     } catch (error) {
       console.error('Error creating test order:', error)
       this.setStatus(500)
@@ -148,12 +145,12 @@ export class MessageRoutes extends Controller {
       @BodyProp('quantityChange') quantityChange: number
   ): Promise<{ message: string }> {
     try {
-      // Import and use the warehouse service
-      const { updateInventory } = await import('../../services/warehouse-service/index')
-      await updateInventory(item, quantityChange)
+      // TODO: Import and use the warehouse service
+      // const { updateInventory } = await import('../../warehouse/index')
+      // await updateInventory(item, quantityChange)
 
-      this.setStatus(201)
-      return { message: 'Inventory update message sent successfully' }
+      this.setStatus(501)
+      throw new Error('Not implemented - warehouse service integration pending')
     } catch (error) {
       console.error('Error updating inventory:', error)
       this.setStatus(500)

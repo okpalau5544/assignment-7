@@ -1,5 +1,5 @@
-import { type Book, type Filter } from '../../documented_types'
-import { type BookDatabaseAccessor } from './database_access'
+import { type Book, type Filter } from '../documented_types'
+import { type BookDatabaseAccessor } from '../database_access'
 
 export default async function listBooks (books: BookDatabaseAccessor, filters: Filter[]): Promise<Book[]> {
   const validFilters = filters?.filter(({ from, to, name, author }) =>
@@ -39,7 +39,7 @@ export default async function listBooks (books: BookDatabaseAccessor, filters: F
     description: string
   }
 
-  const { bookCollection } = await connectToDatabase()
+  const { books: bookCollection } = books
   const bookList: Book[] = await bookCollection.find(query).map((document: BookDocument): Book => {
     const book: Book = {
       id: document._id.toHexString(),
