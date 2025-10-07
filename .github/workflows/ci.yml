@@ -37,9 +37,13 @@ jobs:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
               with:
-                node-version: '20'           
+                node-version: '20'
+            - uses: actions/setup-java@v4
+              with:
+                distribution: 'temurin'
+                java-version: '17'
             - run: npm install
-            - run: npm run test:ci --workspace=books
+            - run: npm run test:ci
 
     test-orders:
         runs-on: ubuntu-latest
@@ -47,9 +51,13 @@ jobs:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
               with:
-                node-version: '20'           
+                node-version: '20'
+            - uses: actions/setup-java@v4
+              with:
+                distribution: 'temurin'
+                java-version: '17'
             - run: npm install
-            - run: npm run test:ci --workspace=orders
+            - run: npm run test:ci
 
     test-warehouse:
         runs-on: ubuntu-latest
@@ -57,9 +65,13 @@ jobs:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
               with:
-                node-version: '20'           
+                node-version: '20'
+            - uses: actions/setup-java@v4
+              with:
+                distribution: 'temurin'
+                java-version: '17'
             - run: npm install
-            - run: npm run test:ci --workspace=warehouse
+            - run: npm run test:ci
 
     generate-client:
         runs-on: ubuntu-latest
